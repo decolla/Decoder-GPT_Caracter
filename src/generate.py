@@ -2,10 +2,10 @@ import torch
 from model import GPTLanguageModel
 from prepare import vocab_size, itos, decode, stoi, encode
 
-# 1. MESMOS HIPERPARÂMETROS DO TREINO
-n_embd = 128
-n_head = 4
-n_layer = 4
+# MESMOS HIPERPARÂMETROS DO TREINO
+n_embd = 256
+n_head = 8
+n_layer = 6
 block_size = 128
 dropout = 0.2
 device = 'cpu' # mantem cpu: AMD® Ryzen 7 5700 × 16
@@ -15,7 +15,7 @@ device = 'cpu' # mantem cpu: AMD® Ryzen 7 5700 × 16
 model = GPTLanguageModel(vocab_size, n_embd, n_head, n_layer, block_size, dropout, device)
 
 # Carregamos os pesos guardados
-model.load_state_dict(torch.load('modelo_duna.pth'))
+model.load_state_dict(torch.load('melhor_modelo_duna.pth'))
 m = model.to(device)
 m.eval() # Modo de avaliação (desliga dropout)
 

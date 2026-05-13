@@ -187,19 +187,23 @@ class GPTLanguageModel(nn.Module):
 
         return logits, loss
 
-    def generate(self, idx, max_new_tokens):
+    # RODAR O MODELO
+    def generate(self, idx, max_new_tokens, temperature=0.5):
         # idx é uma matriz (B, T) de índices no contexto atual
         for _ in range(max_new_tokens):
             # corta o idx para o tamanho máximo do bloco (block_size)
             idx_cond = idx[:, -self.block_size:]
             # obtém as previsões
             logits, loss = self(idx_cond)
+
             # foca apenas no último passo no tempo
-            logits = logits[:, -1, :]  # torna-se (B, C)
+            logits = logits[:, -1, :] / temperature # TEMPERATURA DO MODELO
+
             # aplica softmax para obter probabilidades
-            probs = F.softmax(logits, dim=-1)  # (B, C)
+            probs = F.softmax(logits, dim=-1)
+
             # amostra da distribuição
-            idx_next = torch.multinomial(probs, num_samples=1)  # (B, 1)
+            idx_next = torch.multinomial(probs, num_samples=1)
             # anexa o índice amostrado à sequência corrente
-            idx = torch.cat((idx, idx_next), dim=1)  # (B, T+1)
+            idx = torch.cat((idx, idx_next), dim=1)
         return idx
