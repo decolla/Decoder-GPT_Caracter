@@ -1,7 +1,7 @@
 import torch
 
 # carrega o txt para leitura
-with open('data/dom-casmurro/dom-casmurro.txt', 'r') as f:
+with open('data/duna/duna.txt', 'r') as f:
     text = f.read()
 
 # cria o vocabulário de caracteres únicos em lista de ordem alfabética
@@ -34,16 +34,16 @@ batch_size = 32  # Quantas sequências processar em paralelo
 block_size = 64  # Comprimento máximo do contexto (janela de atenção)
 
 #  retorne as sequências x (entrada) e y (alvo), deslocado um caractere para a direita
-def get_batch(split):
+def get_batch(split, b_size, blk_size):
     # selecionar se usamos dados de treino ou teste
     data_subset = train_data if split == 'train' else val_data
 
     # gerar índices aleatórios para o início das sequências
-    ix = torch.randint(len(data_subset) - block_size, (batch_size,))
+    ix = torch.randint(len(data_subset) - blk_size, (b_size,))
 
     # pega um texto do tamanho do block
-    x = torch.stack([data_subset[i:i + block_size] for i in ix])
+    x = torch.stack([data_subset[i:i + blk_size] for i in ix])
     # pega do mesmo bloco, deslocando um caractere para frente
-    y = torch.stack([data_subset[i + 1:i + block_size + 1] for i in ix])
+    y = torch.stack([data_subset[i + 1:i + blk_size + 1] for i in ix])
 
     return x, y

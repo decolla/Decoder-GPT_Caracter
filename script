@@ -4,4 +4,12 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install --force-reinstall regex transformers sentencepiece
 
+python3 -m venv venv
+source venv/bin/activate
 python -m pip install torch
+pip install numpy
+
+
+OU pip install -r requirements.txt
+
+python3 src/train.py
