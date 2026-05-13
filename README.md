@@ -2,13 +2,13 @@ https://colab.research.google.com/drive/1ibo_hgIqV9si1HDGWCdUB_t1KBCC9uz_#scroll
 
 # Decoder-GPT: LLM em Nível de Caractere
 
-## 📖 Descrição do Projeto
+## Descrição do Projeto
 
 Este projeto consiste no desenvolvimento de uma Rede Neural com arquitetura **Decoder-only**, baseada no modelo **Transformers**, com foco em Processamento de Linguagem Natural (NLP). O objetivo principal foi construir uma LLM (Large Language Model) do zero, desde o tratamento de dados até o loop de treinamento e inferência autoregressiva.
 
 O modelo foi treinado em nível de caractere (estilo *nanoGPT*), utilizando obras literárias como *Dom Casmurro* (Machado de Assis) e *Duna* (Frank Herbert) para aprender padrões linguísticos, morfologia e estilos narrativos específicos.
 
-## 🛠️ Arquitetura e Engenharia
+## Arquitetura e Engenharia
 
 A arquitetura foi implementada utilizando **PyTorch** e conta com as seguintes características técnicas:
 
@@ -18,7 +18,7 @@ A arquitetura foi implementada utilizando **PyTorch** e conta com as seguintes c
 * **Otimização de Memória**: Técnica de **Weight Tying** (compartilhamento de pesos) entre as tabelas de embedding e a camada de saída (LM Head).
 * **Inicialização**: Pesos inicializados com distribuição normal ($\sigma=0.02$) e escalonamento residual para evitar explosão de ativações.
 
-## 💻 Infraestrutura e Otimização
+## Infraestrutura e Otimização
 
 O treinamento foi otimizado para execução em **CPU**, considerando as limitações de hardware local (GPU AMD RX 550 com suporte limitado a ROCm em arquiteturas Polaris):
 
@@ -27,7 +27,7 @@ O treinamento foi otimizado para execução em **CPU**, considerando as limitaç
 * **Paralelismo**: O código utiliza 16 threads simultâneos para maximizar a vazão de dados no treinamento.
 * **Isolamento**: Uso de ambiente virtual (`venv`) para gestão de dependências e reprodutibilidade.
 
-## 📊 Análise de Resultados
+## Análise de Resultados
 
 O modelo demonstrou uma curva de aprendizado sólida, partindo de uma Loss inicial de **4.7** (condizente com a entropia de um vocabulário de ~110 caracteres).
 
@@ -42,8 +42,39 @@ O modelo foi capaz de reproduzir entidades complexas e estruturas de diálogo:
 
 * **Temperatura 0.6**: Produziu textos coerentes e fiéis ao vocabulário original ("Reverenda Madre", "Atreides").
 * **Temperatura 1.2**: Gerou textos criativos e exploratórios, mantendo a sonoridade do universo de Arrakis.
+* **Exemplificação de resultado:**
+  
+`Jessica voltou-se, preparando.
+—Onde Conde podemos o braço rígido e
+desabruxo ade mochilo dentro dos olhos do
+escudo. Tegra, médico.
+Sua própria mão precisiente todos os
+fedores de volta, erbaixo de que arqualo
+plástico: chegava sua kanmã, era
+agora terminada por alguma caverna. Olhar
+agitação! Não havia cojeço Taxas a Jamis
+estavam respiradas.
+— Tudo grande, o vêem Atreides
+sobre mim. Quem estava se encontra.
+— K! Já o...
+Um... mas vão, Jessica...
+A mde Arrakeen flido da criatura de Fremen,
+meu senhor.
+Enquanto o Duque salvou
+retornando um Heighliner, e percebeu que
+Paul olhava para Piter. Sua lítida não
+persuía mais. Os servos das Grandes
+Casas da Corporação não haveriam
+para vocês.
+“A vierdade e a Arrakis”, pensou
+Dunaho. “Prendi) isso iso”, pensou FeydRautha. Ele marConde Fenring
+reconheceu incapaz de sair que ele
+recebera.Guiou pela porta.
+Sorriu para fora da sala brase
+cinzentando-se para juiza de Paul. Os
+queixes perfeitam saltarem.`
 
-## 🚀 Como Executar
+## Como Executar
 
 1. Clone o repositório: `git clone https://github.com/decolla/Decoder_Obra_Literaria.git`
 2. Crie o ambiente virtual: `python3 -m venv venv && source venv/bin/activate`
