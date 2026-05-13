@@ -8,14 +8,14 @@ torch.set_num_threads(16) # OTMIZAÇÃO PARA PROCESSADORES COM MUITOS CORES
 # HIPERPARÂMETROS
 batch_size = 32  # exemplos processados em paralelo P: 64
 block_size = 128 # janela de contexto P: 256
-max_iters = 5000 # rodadas de treino
+max_iters = 50000 # rodadas de treino P: 5000
 eval_interval = 500 # a cada X iterações, avalia o modelo
 learning_rate = 3e-4 # taxa de aprendizado
 device = 'gpu' if torch.cuda.is_available() else 'cpu'
 eval_iters = 200 # quantos batches usar para calcular a loss média
-n_embd = 128 # dimensão do embedding para calcúlo de matriz. P: 384
-n_head = 4 # número de cabeças. P: 6
-n_layer = 4 # número de camadas. P: 6
+n_embd = 256 # dimensão do embedding para calcúlo de matriz. P: 384
+n_head = 8 # número de cabeças. P: 6
+n_layer = 6 # número de camadas. P: 6
 dropout = 0.2
 
 model = GPTLanguageModel(vocab_size, n_embd, n_head, n_layer, block_size, dropout, device)
@@ -56,18 +56,23 @@ def estimate_loss():
     return out
 
 def get_lr(it):
-    # Decaimento de cosseno simples para aprendizado estacionar
+    # decaimento de cosseno simples para aprendizado estacionar
     if it > max_iters: return 3e-5 # min_lr
     decay_ratio = it / max_iters
     coeff = 0.5 * (1.0 + math.cos(math.pi * decay_ratio))
     return 3e-5 + coeff * (learning_rate - 3e-5)
 
+best_val_loss = float('inf') # menor loss possível
 
-# Loop de Treino principal
+# LOOP DE TREINO
 for iter in range(max_iters):
     if iter % eval_interval == 0:
         losses = estimate_loss()
         print(f"Passo {iter}: Loss Treino {losses['train']:.4f}, Loss Val {losses['val']:.4f}")
+        if losses['val'] < best_val_loss:
+            best_val_loss = losses['val']
+            torch.save(model.state_dict(), 'melhor_modelo_duna.pth')
+            print(f"Modelo salvo com Loss Val: {best_val_loss:.4f}")
 
     # busca uma amostra de entrada e o alvo esperado
     xb, yb = get_batch('train', batch_size, block_size)

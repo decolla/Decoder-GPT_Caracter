@@ -22,10 +22,10 @@ m.eval() # Modo de avaliação (desliga dropout)
 # 3. LÓGICA DE GERAÇÃO
 print("--- GERANDO TEXTO AO ESTILO DE DUNA ---")
 
-# Começamos com um contexto vazio (um caractere de "nova linha" ou espaço)
+# começamos com um contexto vazio (um caractere de "nova linha" ou espaço)
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 
-# Geramos 500 novos caracteres
+# geramos 500 novos caracteres
 # A função .generate() já está na tua classe GPTLanguageModel
 generated_tokens = m.generate(context, max_new_tokens=500)[0].tolist()
 
