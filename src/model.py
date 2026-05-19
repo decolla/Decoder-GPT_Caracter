@@ -188,7 +188,7 @@ class GPTLanguageModel(nn.Module):
         return logits, loss
 
     # RODAR O MODELO
-    def generate(self, idx, max_new_tokens, temperature=0.5):
+    def generate(self, idx, max_new_tokens, temperature=1.2):
         # idx é uma matriz (B, T) de índices no contexto atual
         for _ in range(max_new_tokens):
             # corta o idx para o tamanho máximo do bloco (block_size)
