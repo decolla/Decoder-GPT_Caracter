@@ -28,9 +28,9 @@ class Head(nn.Module):
 
     # calcula a importância de cada caractere para o contexto
     def forward(self, x):
-        # B: batch_size, exemplos processados em paralelo
-        # T: tempo, comprimento da sequência de caracteres, o block size
-        # C: channels, dimensão do embedding (n_embd)
+        # B: batch_size, exemplos processados em paralelo, = 32
+        # T: tempo, comprimento da sequência de caracteres, o block size = 128
+        # C: channels, dimensão do embedding (n_embd) = 256
         B, T, C = x.shape
 
         # compara o caractere com as informações que ele pode ter
